@@ -33,8 +33,9 @@ export default function Show() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
+      <div className="grid">
         {result.map((show) => (
-        <div key={show.id}>
+        <div className="card" key={show.id}>
           <img src={show.image.medium} width="150" />
           <h3>
             <Link to={`/shows/${show.id}`}>{show.name}</Link>
@@ -43,6 +44,7 @@ export default function Show() {
           <p>⭐ {show.rating.average}</p>
         </div>
       ))}
+      </div>
       </div>
   )
 }

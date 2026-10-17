@@ -28,7 +28,7 @@ export default function ShowDetails() {
   }
 
   return (
-    <div>
+    <div className="details">
       <h1>{show.name}</h1>
       <img src={show.image.medium} />
       <p>Genres: {show.genres.join(", ")}</p>
@@ -38,13 +38,15 @@ export default function ShowDetails() {
       <p>{show.summary.replace(/<[^>]+>/g, "")}</p>
 
       <h2>Cast</h2>
+      <div className="grid">
       {cast.map((member) => (
-        <div key={member.character.id}>
+        <div className="card" key={member.character.id}>
           {member.person.image && <img src={member.person.image.medium} width="100" />}
           <h3>{member.person.name}</h3>
           <p>as {member.character.name}</p>
         </div>
       ))}
+      </div>
     </div>
   )
 }
