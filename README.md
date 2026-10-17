@@ -1,16 +1,36 @@
-# React + Vite
+# ps6-tv-show-finder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**PS number:** PS6
+**Project name:** ShowTime, a TV show finder
+**API used:** [TVmaze API](https://www.tvmaze.com/api)
+**Live link:** https://tv-show-finder-delta.vercel.app/
 
-Currently, two official plugins are available:
+A React app to browse TV shows, search them by name, and open a detail page with the cast.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Routes
 
-## React Compiler
+| Route | Page shows | API |
+|---|---|---|
+| `/` | Hero and "Browse shows" button | none |
+| `/shows` | First 40 shows as cards (poster, name, genres, rating) with search by name | `https://api.tvmaze.com/shows?page=0` |
+| `/shows/:id` | Poster, name, genres, language, premiere date, rating, summary and cast | `https://api.tvmaze.com/shows/:id` and `/shows/:id/cast` |
+| `*` | "Page not found" with a link to Home | none |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Screenshots
 
-## Expanding the ESLint configuration
+Before styling (home page):
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+![Before CSS](screenshots/before.png)
+
+After styling (shows page):
+
+![After CSS](screenshots/after.webp)
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+Built with React, Vite and React Router. Deployed on Vercel (`vercel.json` rewrites all paths to `index.html` so detail URLs work on refresh).
