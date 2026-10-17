@@ -8,24 +8,33 @@ export default function ShowDetails() {
 
   const [show, setShow] = useState(null);
   const [cast, setCast] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function APIcall() {
-      let responce = await fetch(`https://api.tvmaze.com/shows/${id}`);
-      let data = await responce.json();
-      setShow(data);
+      try {
+        let responce = await fetch(`https://api.tvmaze.com/shows/${id}`);
+        if (!responce.ok) throw new Error("Show not found");
+        let data = await responce.json();
+        setShow(data);
 
-      let castResponce = await fetch(`https://api.tvmaze.com/shows/${id}/cast`);
-      let castData = await castResponce.json();
-      setCast(castData);
+        let castResponce = await fetch(`https://api.tvmaze.com/shows/${id}/cast`);
+        if (!castResponce.ok) throw new Error("Failed to load cast");
+        let castData = await castResponce.json();
+        setCast(castData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     }
 
     APIcall();
   }, [id]);
 
-   if (!show) {
-    return <h2>Loading...</h2>;
-  }
+  if (loading) return <h2>Loading...</h2>;
+  if (error) return <h2>Error: {error}</h2>;
 
   return (
     <div className="details">

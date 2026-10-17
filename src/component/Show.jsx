@@ -6,13 +6,21 @@ export default function Show() {
 
   const [shows , setShows] = useState([])
   const [search, setSearch] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
   useEffect(()=>{
     async function getData() {
-      let response = await fetch("https://api.tvmaze.com/shows?page=0")
-      let data = await response.json()
-      setShows(data.slice(0,40));
-      
+      try {
+        let response = await fetch("https://api.tvmaze.com/shows?page=0")
+        if (!response.ok) throw new Error("Failed to load shows")
+        let data = await response.json()
+        setShows(data.slice(0,40));
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
     }
     getData()
   },[])
@@ -21,6 +29,9 @@ export default function Show() {
     return show.name.toLowerCase().includes(search.toLowerCase());
   });
 
+
+  if (loading) return <h2>Loading...</h2>
+  if (error) return <h2>Error: {error}</h2>
 
   return (
      <div>
